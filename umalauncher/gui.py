@@ -1,5 +1,6 @@
 import copy
 from loguru import logger
+from threading import Thread
 import PyQt5.QtCore as qtc
 import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
@@ -1169,6 +1170,10 @@ class AboutDialog(UmaMainDialog):
         self.verticalLayout.addItem(self.verticalSpacer)
     
     def update_check(self):
+        thread = Thread(target=self._update_check,)
+        thread.start()
+    
+    def _update_check(self):
         self.btn_update.setEnabled(False)
         result = version.auto_update(self.settings, force=True)
         if result:
